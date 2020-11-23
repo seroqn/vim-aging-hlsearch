@@ -3,10 +3,13 @@
 
 標準の `hlsearch` オプションと同時に、もっと過去の検索パターンをハイライトしたいときに。
 
-検索パターンは `g:aging_hlsearch#colors` で設定します。
+ハイライトは `g:aging_hlsearch#colors` で設定します。
 
 `:nohlsearch` したときやハイライトを無効にするコマンドを呼んだ時には無効になります。
 
+## Similar Plugins
+- [t9md/vim-quickhl](https://github.com/t9md/vim-quickhl)
+- [daisuzu/rainbowcyclone.vim](https://github.com/daisuzu/rainbowcyclone.vim)
 
 ## Author
 seroqn
