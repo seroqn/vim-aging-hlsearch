@@ -1,0 +1,112 @@
+*aging-hlsearch.txt*	前々回、前々々回‥の検索パターンをハイライトする
+
+Author  : seroqn
+License : MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+==============================================================================
+目次						*aging-hlsearch-contents*
+
+概要				|aging-hlsearch-introduction|
+詳細				|aging-hlsearch-detail|
+インターフェイス		|aging-hlsearch-interface|
+  変数				  |aging-hlsearch-variables|
+  コマンド			  |aging-hlsearch-commands|
+  キーマッピング		  |aging-hlsearch-key-mappings|
+
+
+==============================================================================
+概要						*aging-hlsearch-introduction*
+
+*aging-hlsearch* は検索したパターンを 'hlsearch' のようにハイライトします。
+前々回や前々々回などの検索パターンをハイライトしておきたいときに役立ちます。
+
+ハイライトの定義には|g:aging_hlsearch#colors|が使われます。既定では 2 要素設定
+されているので、前々回と前々々回の検索パターンがハイライトされます。
+
+オプション 'hlsearch' や |v:hlsearch|が無効のとき(|:nohlsearch|したとき)にはハ
+イライトを停止します。
+|:AginghlsearchClearHL|や|:AginghlsearchDisable|で手動で停止できます。
+
+
+==============================================================================
+詳細						*aging-hlsearch-detail*
+
+- ハイライトが更新されるタイミングはウィンドウを移動したときか、コマンドライン
+  から戻ったときか、|CursorHold|である。だからハイライトの繁栄が遅れることはあ
+  る。
+
+
+==============================================================================
+インターフェイス				*aging-hlsearch-interface*
+
+------------------------------------------------------------------------------
+変数						*aging-hlsearch-variables*
+
+g:aging_hlsearch#enable				*g:aging_hlsearch#enable*
+	既定値: 1
+	非0 なら有効です。'hlsearch'が働くとき、同時に以前の検索ワードをハイラ
+	イトします。
+
+
+g:aging_hlsearch#colors				*g:aging_hlsearch#colors*
+	文字列のリスト、既定値: >
+ [
+ \ "guibg=#A5A500 guifg=Black  ctermbg=142 ctermfg=16",
+ \ "guibg=#656600 guifg=gray66  ctermbg=58 ctermfg=247",
+ \ ]
+<	文字列は|:highlight|コマンドの {key}={arg} で使えるものでなければいけ
+	ません。|guibg| |guifg| |ctermbg| |ctermfg| 以外のキーを使用しないでく
+	ださい。
+	検索パターンのハイライトに使われるハイライトを定義します。リストに定義
+	した分だけ最新の履歴から古い履歴までがハイライトされます。
+
+
+------------------------------------------------------------------------------
+コマンド					*aging-hlsearch-commands*
+
+:AginghlsearchClearHL				*:AginghlsearchClearHL*
+	一時的に当プラグインのハイライトを無効にします。検索履歴が更新されたと
+	き再び有効になります。
+
+
+:AginghlsearchDisable				*:AginghlsearchDisable*
+	当プラグインのハイライトを無効にします。手動で再び有効にしない限り有効
+	になりません。|g:aging_hlsearch#enable| が 0 にセットされます。
+
+
+:AginghlsearchEnable				*:AginghlsearchEnable*
+	当プラグインのハイライトを有効にします。
+	|g:aging_hlsearch#enable| が 1 にセットされます。
+
+
+------------------------------------------------------------------------------
+キーマッピング					*aging-hlsearch-key-mappings*
+
+<Plug>(aging-hlsearch#clear-hl)		*<Plug>(aging-hlsearch#clear-hl)*
+	有効モード: ノーマル ビジュアル オペレータ
+
+
+<Plug>(aging-hlsearch#refresh)		*<Plug>(aging-hlsearch#refresh)*
+	有効モード: ノーマル ビジュアル オペレータ
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:
