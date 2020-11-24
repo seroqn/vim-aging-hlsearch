@@ -1,4 +1,4 @@
-*aging-hlsearch.txt*	前々回、前々々回‥の検索パターンをハイライトする
+*shadowing-hlsearch.txt*  前々回、前々々回‥の検索パターンをハイライトする
 
 Author  : seroqn
 License : MIT license  {{{
@@ -22,32 +22,32 @@ License : MIT license  {{{
 }}}
 
 ==============================================================================
-目次						*aging-hlsearch-contents*
+目次						*shadowing-hlsearch-contents*
 
-概要				|aging-hlsearch-introduction|
-詳細				|aging-hlsearch-detail|
-インターフェイス		|aging-hlsearch-interface|
-  変数				  |aging-hlsearch-variables|
-  コマンド			  |aging-hlsearch-commands|
-  キーマッピング		  |aging-hlsearch-key-mappings|
+概要				|shadowing-hlsearch-introduction|
+詳細				|shadowing-hlsearch-detail|
+インターフェイス		|shadowing-hlsearch-interface|
+  変数				  |shadowing-hlsearch-variables|
+  コマンド			  |shadowing-hlsearch-commands|
+  キーマッピング		  |shadowing-hlsearch-key-mappings|
 
 
 ==============================================================================
-概要						*aging-hlsearch-introduction*
+概要					*shadowing-hlsearch-introduction*
 
-*aging-hlsearch* は検索したパターンを 'hlsearch' のようにハイライトします。
+*shadowing-hlsearch* は検索したパターンを 'hlsearch' のようにハイライトします。
 前々回や前々々回などの検索パターンをハイライトしておきたいときに役立ちます。
 
-ハイライトの定義には|g:aging_hlsearch#colors|が使われます。既定では 2 要素設定
-されているので、前々回と前々々回の検索パターンがハイライトされます。
+ハイライトの定義には|g:shadowing_hlsearch#colors|が使われます。既定では 2 要素設
+定されているので、前々回と前々々回の検索パターンがハイライトされます。
 
 オプション 'hlsearch' や |v:hlsearch|が無効のとき(|:nohlsearch|したとき)にはハ
 イライトを停止します。
-|:AginghlsearchClearHL|や|:AginghlsearchDisable|で手動で停止できます。
+|:ShadowinghlsClearHL|や|:ShadowinghlsDisable|で手動で停止できます。
 
 
 ==============================================================================
-詳細						*aging-hlsearch-detail*
+詳細						*shadowing-hlsearch-detail*
 
 - ハイライトが更新されるタイミングはウィンドウを移動したときか、コマンドライン
   から戻ったときか、|CursorHold|である。だからハイライトの繁栄が遅れることはあ
@@ -55,18 +55,18 @@ License : MIT license  {{{
 
 
 ==============================================================================
-インターフェイス				*aging-hlsearch-interface*
+インターフェイス				*shadowing-hlsearch-interface*
 
 ------------------------------------------------------------------------------
-変数						*aging-hlsearch-variables*
+変数						*shadowing-hlsearch-variables*
 
-g:aging_hlsearch#enable				*g:aging_hlsearch#enable*
-	既定値: 1
+g:shadowing_hlsearch#enable			*g:shadowing_hlsearch#enable*
+	既定値: 0
 	非0 なら有効です。'hlsearch'が働くとき、同時に以前の検索ワードをハイラ
 	イトします。
 
 
-g:aging_hlsearch#colors				*g:aging_hlsearch#colors*
+g:shadowing_hlsearch#colors			*g:shadowing_hlsearch#colors*
 	文字列のリスト、既定値: >
  [
  \ "guibg=#A5A500 guifg=Black  ctermbg=142 ctermfg=16",
@@ -80,31 +80,31 @@ g:aging_hlsearch#colors				*g:aging_hlsearch#colors*
 
 
 ------------------------------------------------------------------------------
-コマンド					*aging-hlsearch-commands*
+コマンド					*shadowing-hlsearch-commands*
 
-:AginghlsearchClearHL				*:AginghlsearchClearHL*
+:ShadowinghlsClearHL				*:ShadowinghlsClearHL*
 	一時的に当プラグインのハイライトを無効にします。検索履歴が更新されたと
 	き再び有効になります。
 
 
-:AginghlsearchDisable				*:AginghlsearchDisable*
+:ShadowinghlsDisable				*:ShadowinghlsDisable*
 	当プラグインのハイライトを無効にします。手動で再び有効にしない限り有効
-	になりません。|g:aging_hlsearch#enable| が 0 にセットされます。
+	になりません。|g:shadowing_hlsearch#enable| が 0 にセットされます。
 
 
-:AginghlsearchEnable				*:AginghlsearchEnable*
+:ShadowinghlsEnable				*:ShadowinghlsEnable*
 	当プラグインのハイライトを有効にします。
-	|g:aging_hlsearch#enable| が 1 にセットされます。
+	|g:shadowing_hlsearch#enable| が 1 にセットされます。
 
 
 ------------------------------------------------------------------------------
-キーマッピング					*aging-hlsearch-key-mappings*
+キーマッピング				*shadowing-hlsearch-key-mappings*
 
-<Plug>(aging-hlsearch#clear-hl)		*<Plug>(aging-hlsearch#clear-hl)*
+<Plug>(shadowing-hlsearch#clear-hl)	*<Plug>(shadowing-hlsearch#clear-hl)*
 	有効モード: ノーマル ビジュアル オペレータ
 
 
-<Plug>(aging-hlsearch#refresh)		*<Plug>(aging-hlsearch#refresh)*
+<Plug>(shadowing-hlsearch#refresh)	*<Plug>(shadowing-hlsearch#refresh)*
 	有効モード: ノーマル ビジュアル オペレータ
 
 
