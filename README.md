@@ -7,6 +7,8 @@
 
 `:nohlsearch` したときやハイライトを無効にするコマンドを呼んだ時には無効になります。
 
+ハイライトの手動オンオフには `:ShadowinghlsEnable` `:ShadowinghlsDisable` を使います。
+
 ## Similar Plugins
 - [t9md/vim-quickhl](https://github.com/t9md/vim-quickhl)
 - [daisuzu/rainbowcyclone.vim](https://github.com/daisuzu/rainbowcyclone.vim)
