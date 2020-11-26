@@ -1,4 +1,4 @@
-*shadowing-hlsearch.txt*  前々回、前々々回‥の検索パターンをハイライトする
+*hlsearch-ember.txt*  前々回、前々々回‥の検索パターンをハイライトする
 
 Author  : seroqn
 License : MIT license  {{{
@@ -22,36 +22,36 @@ License : MIT license  {{{
 }}}
 
 ==============================================================================
-目次						*shadowing-hlsearch-contents*
+目次						*hlsearch-ember-contents*
 
-概要				|shadowing-hlsearch-introduction|
-詳細				|shadowing-hlsearch-detail|
-インターフェイス		|shadowing-hlsearch-interface|
-  変数				  |shadowing-hlsearch-variables|
-  コマンド			  |shadowing-hlsearch-commands|
-  キーマッピング		  |shadowing-hlsearch-key-mappings|
+概要				|hlsearch-ember-introduction|
+詳細				|hlsearch-ember-detail|
+インターフェイス		|hlsearch-ember-interface|
+  変数				  |hlsearch-ember-variables|
+  コマンド			  |hlsearch-ember-commands|
+  キーマッピング		  |hlsearch-ember-key-mappings|
 
 
 ==============================================================================
-概要					*shadowing-hlsearch-introduction*
+概要					*hlsearch-ember-introduction*
 
-*shadowing-hlsearch* は検索したパターンを 'hlsearch' のようにハイライトします
+*hlsearch-ember* は検索したパターンを 'hlsearch' のようにハイライトします
 。前々回や前々々回などの検索パターンをハイライトしておきたいときに役立ちます。
 
-ハイライトの定義には|g:shadowing_hlsearch#colors|が使われます。既定では 2 要素
-設定されているので、前々回と前々々回の検索パターンがハイライトされます。
+ハイライトの定義には|g:hlsearch_ember#colors|が使われます。既定では 2 要素設定
+されているので、前々回と前々々回の検索パターンがハイライトされます。
 
 オプション 'hlsearch' や |v:hlsearch|が無効のとき(|:nohlsearch|したとき)にはハ
 イライトを停止します。
-ハイライトの手動オンオフには |:ShadowinghlsEnable| |:ShadowinghlsDisable| を使
-います。
+ハイライトの手動オンオフには
+|:HlsearchEmberEnable| |:HlsearchEmberDisable| を使います。
 
-|g:shadowing_hlsearch#enable_with_hlsearch|が 非0 なら 'hlsearch' が有効になっ
+|g:hlsearch_ember#enable_with_hlsearch|が 非0 なら 'hlsearch' が有効になっ
 たとき自動で当プラグインのハイライトも有効になります。
 
 
 ==============================================================================
-詳細						*shadowing-hlsearch-detail*
+詳細						*hlsearch-ember-detail*
 
 - ハイライトが更新されるタイミングはウィンドウを移動したときか、コマンドライン
   から戻ったときか、|CursorHold|である。だからハイライトの繁栄が遅れることはあ
@@ -59,54 +59,54 @@ License : MIT license  {{{
 
 
 ==============================================================================
-インターフェイス				*shadowing-hlsearch-interface*
+インターフェイス				*hlsearch-ember-interface*
 
 ------------------------------------------------------------------------------
-変数						*shadowing-hlsearch-variables*
+変数						*hlsearch-ember-variables*
 
-				*g:shadowing_hlsearch#enable_with_hlsearch*
-g:shadowing_hlsearch#enable_with_hlsearch
+					*g:hlsearch_ember#enable_with_hlsearch*
+g:hlsearch_ember#enable_with_hlsearch
 	既定値: 0
 	非0 なら 'hlsearch' が働いたとき、同時に当プラグインのハイライトも有効
 	になります。
 
 
-g:shadowing_hlsearch#colors			*g:shadowing_hlsearch#colors*
+g:hlsearch_ember#colors			*g:hlsearch_ember#colors*
 	文字列のリスト、既定値: >
  [
  \ "guibg=#A5A500 guifg=Black  ctermbg=142 ctermfg=16",
  \ "guibg=#656600 guifg=gray66  ctermbg=58 ctermfg=247",
  \ ]
 <	文字列は|:highlight|コマンドの {key}={arg} で使えるものでなければいけ
-	ません。|guibg| |guifg| |ctermbg| |ctermfg| 以外のキーを使用しないでく
+	ません。`guibg` `guifg` `ctermbg` `ctermfg` 以外のキーを使用しないでく
 	ださい。
 	検索パターンのハイライトに使われるハイライトを定義します。リストに定義
 	した分だけ最新の履歴から古い履歴までがハイライトされます。
 
 
 ------------------------------------------------------------------------------
-コマンド					*shadowing-hlsearch-commands*
+コマンド					*hlsearch-ember-commands*
 
-:ShadowinghlsEnable[!]				*:ShadowinghlsEnable*
+:HlsearchEmberEnable[!]				*:HlsearchEmberEnable*
 	当プラグインのハイライトを有効にします。
-	! が与えられると|g:shadowing_hlsearch#enable_with_hlsearch| を1 にセッ
-	トします(つまり、以降有効になり続けます)。
+	! が与えられると|g:hlsearch_ember#enable_with_hlsearch| を
+	1 にセットします(つまり、以降有効になり続けます)。
 
 
-:ShadowinghlsDisable[!]				*:ShadowinghlsDisable*
+:HlsearchEmberDisable[!]				*:HlsearchEmberDisable*
 	当プラグインのハイライトを無効にします。
-	! が与えられると|g:shadowing_hlsearch#enable_with_hlsearch| を0 にセッ
-	トします(つまり、以降無効になり続けます)。
+	! が与えられると|g:hlsearch_ember#enable_with_hlsearch| を
+	0 にセットします(つまり、以降無効になり続けます)。
 
 
 ------------------------------------------------------------------------------
-キーマッピング				*shadowing-hlsearch-key-mappings*
+キーマッピング				*hlsearch-ember-key-mappings*
 
-<Plug>(shadowing-hlsearch#clear-hl)	*<Plug>(shadowing-hlsearch#clear-hl)*
+<Plug>(hlsearch-ember#clear-hl)	*<Plug>(hlsearch-ember#clear-hl)*
 	有効モード: ノーマル ビジュアル オペレータ
 
 
-<Plug>(shadowing-hlsearch#refresh)	*<Plug>(shadowing-hlsearch#refresh)*
+<Plug>(hlsearch-ember#refresh)	*<Plug>(hlsearch-ember#refresh)*
 	有効モード: ノーマル ビジュアル オペレータ
 
 
