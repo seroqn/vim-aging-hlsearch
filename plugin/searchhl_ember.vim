@@ -6,9 +6,6 @@ let g:searchhl_ember#enable_with_hlsearch = get(g:, 'searchhl_ember#enable_with_
 let g:searchhl_ember#colors = exists('g:searchhl_ember#colors') ? g:searchhl_ember#colors :
   \ ['guibg=#A5A500 guifg=Black  ctermbg=142 ctermfg=16', 'guibg=#656600 guifg=gray66  ctermbg=58 ctermfg=247']
 
-noremap <Plug>(searchhl-ember#clear-hl)   :<C-u>SearchhlEmberDisable<CR>
-noremap <Plug>(searchhl-ember#refresh)   :<C-u>call <SID>RefreshAll()<CR>
-
 command! -bang SearchhlEmberEnable   let &hlsearch = &hlsearch | call s:enable(<bang>0)
 command! -bang SearchhlEmberDisable  call s:disable(<bang>0)
 
@@ -16,7 +13,8 @@ aug searchhl_ember
   au!
   au VimEnter *   let w:SearchhlEmber_histMIds = []
   au WinEnter *   call s:Init()
-  au CmdwinLeave,CursorHold *  call s:RefreshAll()
+  au CmdwinLeave,CursorHold * call s:RefreshAll()
+  au CursorMoved *  call s:refresh_if_nv_mode()
   if exists('##CmdlineLeave')
     au CmdlineLeave * call s:RefreshAll()
   end
@@ -89,6 +87,16 @@ function! s:hl_common_prerequisite() abort "{{{
   let is_enabled = (s:manual_enabling || g:searchhl_ember#enable_with_hlsearch) && &hlsearch && get(v:, 'hlsearch', 1)
   return !is_enabled ? {'is_enabled': 0} : {'is_enabled': 1,
     \ 'is_clear_ineffective': s:hist_at_cleared=='' || s:hist_at_cleared !=# histget('search', -1)}
+endfunc
+"}}}
+function! s:refresh_if_nv_mode() abort "{{{
+  let m = mode()
+  if m ==# 'n'
+    call s:RefreshAll()
+  elseif m =~# "^[vV\<C-v>]$"
+    call s:RefreshAll()
+    norm! gv
+  end
 endfunc
 "}}}
 function! s:enable(persist) abort "{{{
