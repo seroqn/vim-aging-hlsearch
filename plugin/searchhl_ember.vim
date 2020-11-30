@@ -25,26 +25,27 @@ aug END
 let s:manual_enabling = 0
 let s:hist_at_cleared = ''
 function! s:Init() abort "{{{
-  if exists('w:SearchhlEmber_histMIds') | return s:Refresh() | endif
+  let prerequisite = s:hl_common_prerequisite()
+  if exists('w:SearchhlEmber_histMIds') | return s:Refresh(prerequisite) | endif
   let w:SearchhlEmber_histMIds = []
-  if !((s:manual_enabling || g:searchhl_ember#enable_with_hlsearch) && &hlsearch && get(v:, 'hlsearch', 1))
+  if !prerequisite.is_enabled
     let s:manual_enabling = 0
     return
-  elseif !(s:is_clear_ineffective() && searchhl_ember#is_wornhl())
+  elseif !(prerequisite.is_clear_ineffective && searchhl_ember#is_wornhl())
     return
   end
   let s:hist_at_cleared = ''
   call searchhl_ember#put_hl()
 endfunc
 "}}}
-function! s:Refresh() abort "{{{
+function! s:Refresh(prerequisite) abort "{{{
   if !exists('w:SearchhlEmber_histMIds')
     return
-  elseif !((s:manual_enabling || g:searchhl_ember#enable_with_hlsearch) && &hlsearch && get(v:, 'hlsearch', 1))
+  elseif !a:prerequisite.is_enabled
     let s:manual_enabling = 0
     call s:clear_hl()
     return
-  elseif  !s:is_clear_ineffective()
+  elseif  !a:prerequisite.is_clear_ineffective
     call s:clear_hl()
     return
   elseif !searchhl_ember#is_wornhl()
@@ -57,8 +58,9 @@ endfunc
 "}}}
 function! s:RefreshAll() abort "{{{
   let winnr = winnr()
+  let prerequisite = s:hl_common_prerequisite()
   try
-    noa keepj windo call s:Refresh()
+    noa keepj windo call s:Refresh(prerequisite)
   catch
     let [s:manual_enabling, g:searchhl_ember#enable_with_hlsearch] = [0, 0]
     echoerr printf("searchhl-ember: %s    %s", v:throwpoint, v:exception)
@@ -83,8 +85,10 @@ function! s:clear_hl() "{{{
 endfunc
 "}}}
 
-function! s:is_clear_ineffective() abort "{{{
-  return s:hist_at_cleared=='' || s:hist_at_cleared !=# histget('search', -1)
+function! s:hl_common_prerequisite() abort "{{{
+  let is_enabled = (s:manual_enabling || g:searchhl_ember#enable_with_hlsearch) && &hlsearch && get(v:, 'hlsearch', 1)
+  return !is_enabled ? {'is_enabled': 0} : {'is_enabled': 1,
+    \ 'is_clear_ineffective': s:hist_at_cleared=='' || s:hist_at_cleared !=# histget('search', -1)}
 endfunc
 "}}}
 function! s:enable(persist) abort "{{{
