@@ -14,7 +14,7 @@ aug searchhl_ember
   au VimEnter *   let w:SearchhlEmber_histMIds = []
   au WinEnter *   call s:Init()
   au CmdwinLeave,CursorHold * call s:RefreshAll()
-  au CursorMoved *  call s:refresh_if_nv_mode()
+  au CursorMoved *  if mode()==# 'n' | call s:RefreshAll() | endif
   if exists('##CmdlineLeave')
     au CmdlineLeave * call s:RefreshAll()
   end
@@ -87,16 +87,6 @@ function! s:hl_common_prerequisite() abort "{{{
   let is_enabled = (s:manual_enabling || g:searchhl_ember#enable_with_hlsearch) && &hlsearch && get(v:, 'hlsearch', 1)
   return !is_enabled ? {'is_enabled': 0} : {'is_enabled': 1,
     \ 'is_clear_ineffective': s:hist_at_cleared=='' || s:hist_at_cleared !=# histget('search', -1)}
-endfunc
-"}}}
-function! s:refresh_if_nv_mode() abort "{{{
-  let m = mode()
-  if m ==# 'n'
-    call s:RefreshAll()
-  elseif m =~# "^[vV\<C-v>]$"
-    call s:RefreshAll()
-    norm! gv
-  end
 endfunc
 "}}}
 function! s:enable(persist) abort "{{{
