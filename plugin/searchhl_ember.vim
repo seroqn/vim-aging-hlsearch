@@ -14,7 +14,7 @@ aug searchhl_ember
   au VimEnter *   let w:SearchhlEmber_histMIds = []
   au WinEnter *   call s:Init()
   au CmdwinLeave,CursorHold * call s:RefreshAll()
-  au CursorMoved *  if mode()==# 'n' | call s:RefreshAll() | endif
+  au CursorMoved *  call s:refreshall_by_mode()
   if exists('##CmdlineLeave')
     au CmdlineLeave * call s:RefreshAll()
   end
@@ -55,15 +55,15 @@ function! s:Refresh(prerequisite) abort "{{{
 endfunc
 "}}}
 function! s:RefreshAll() abort "{{{
-  let winnr = winnr()
   let prerequisite = s:hl_common_prerequisite()
+  let winnr = winnr()
   try
-    noa keepj windo call s:Refresh(prerequisite)
+    call s:refreshall_inner(prerequisite)
   catch
     let [s:manual_enabling, g:searchhl_ember#enable_with_hlsearch] = [0, 0]
     echoerr printf("searchhl-ember: %s    %s", v:throwpoint, v:exception)
   finally
-    exe winnr. 'wincmd w'
+    noa keepj exe winnr. 'wincmd w'
   endtry
 endfunc
 "}}}
@@ -71,7 +71,7 @@ function! s:ClearAll() abort "{{{
   let s:hist_at_cleared = histget('search', -1)
   let winnr = winnr()
   noa keepj windo call s:clear_hl()
-  exe winnr. 'wincmd w'
+  noa keepj exe winnr. 'wincmd w'
 endfunc
 "}}}
 
@@ -89,6 +89,25 @@ function! s:hl_common_prerequisite() abort "{{{
     \ 'is_clear_ineffective': s:hist_at_cleared=='' || s:hist_at_cleared !=# histget('search', -1)}
 endfunc
 "}}}
+if exists('*win_execute')
+  function! s:refreshall_inner(prerequisite) abort "{{{
+    let i = winnr('$')
+    while i > 0
+      call win_execute(win_getid(i), 'call s:Refresh(a:prerequisite)')
+      let i -= 1
+    endwhile
+  endfunc "}}}
+  function! s:refreshall_by_mode() abort "{{{
+    return mode() =~# "[nvV\<C-v>]" && s:RefreshAll()
+  endfunc "}}}
+else
+  function! s:refreshall_inner(prerequisite) abort "{{{
+    noa keepj windo call s:Refresh(a:prerequisite)
+  endfunc "}}}
+  function! s:refreshall_by_mode() abort "{{{
+    return mode() ==# "n" && s:RefreshAll()
+  endfunc "}}}
+end
 function! s:enable(persist) abort "{{{
   if a:persist | let g:searchhl_ember#enable_with_hlsearch = 1 | endif
   let s:hist_at_cleared = ''
