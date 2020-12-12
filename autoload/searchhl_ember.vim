@@ -7,7 +7,9 @@ function! searchhl_ember#put_hl() abort "{{{
   let [len, i] = [len(g:searchhl_ember#colors), 0]
   while i < len
     let hist = histget('search', -1 * (i+2))
-    call add(w:SearchhlEmber_histMIds, [hist, matchadd('SearchhlEmber_'. i, hist, -1 * i)])
+    if hist!=''
+      call add(w:SearchhlEmber_histMIds, [hist, matchadd('SearchhlEmber_'. i, hist, -1 * i)])
+    end
     let i += 1
   endwhile
 endfunc
